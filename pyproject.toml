@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "dolar - def"
+version = "0.1.0"
+description = ""
+authors = ["Pedro Henrique de Sousa Alcântara"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+beautifulsoup4 = "^4.11.1"
+bs4 = "^0.0.1"
+psycopg2 = "^2.9.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
