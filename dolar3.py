@@ -1,6 +1,6 @@
 # coding=utf-8
-#from matplotlib import pyplot as plt
-#import matplotlib.patches as patches
+from matplotlib import pyplot as plt
+import matplotlib.patches as patches
 from datetime import date
 #import PySimpleGUI as sg
 import requests
@@ -42,29 +42,31 @@ def connect_and_retrieve_data():
         conn = psycopg2.connect(database="dados", user='pedro', 
         password='qwe123', host='localhost', port= '5432')
         today = date.today()
-        
         conn.autocommit = True 
         cursor = conn.cursor()
-        cursor.execute("select count(1) from dados where dia = '{}'".format(today))
-        if cursor.fetchone==0:
+        cursor.execute(f"SELECT COUNT(1) FROM dados WHERE dia = '{today}';")
+        fetch_test = cursor.fetchone()
+        if fetch_test[0] == 0:
                 sql=('''INSERT INTO dados VALUES (%s, %s)''')
                 valor = get_website_data()
                 val= (today, valor)
                 cursor.execute(sql, val)
+        else:
+                print("Dados de hoje já enviados ao banco de dados.")
 def plot_graph():
         conn = psycopg2.connect(database="dados", user='pedro', 
         password='qwe123', host='localhost', port= '5432')
         conn.autocommit = True 
         cursor = conn.cursor()   
-        select_query='select * from dolar'
+        select_query='select * from dados'
         cursor.execute(select_query)
         records=cursor.fetchall()
         dia=[]
         valores=[]
         for row in records:
-                strin2=row[0]
-                strin1=row[1]
-                while (strin1[5:7]) ==meses[mes]:
+                strin2=str(row[0])
+                strin1=str(row[1])
+                while (strin1[5:7]) == meses[mes]:
                         strin2=strin2.replace(",", ".")
                         dia.append(strin1[8:10])
                         valores.append(float(strin2[0:4]))
@@ -75,7 +77,7 @@ def plot_graph():
         plt.title(f"Dólar no mês de {meses[mes]}")
         plt.show()
 
-#print(f'UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS')
+print(f'UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS')
 connect_and_retrieve_data()
 #plot_graph()
 from time import sleep
