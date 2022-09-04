@@ -71,10 +71,21 @@ def connect_and_retrieve_data():
 
 
 def plot_graph():
-
+    dias =[]
+    valores =[]
     with Session(engine) as session:
-        dias = session.query(Dados.data).all()
-        valores = session.query(Dados.valor).all()
+        s_dias = session.query(Dados.data).all()
+        s_valores = session.query(Dados.valor).all()
+        for dia in s_dias:
+            dia = str(dia)
+            print(dia)
+            if dia[7:9] == meses[mes]:
+                dias.append(dia[10:12])
+        for valor in s_valores:
+            valor = str(valor)
+            valor = valor.replace(",", ".")
+            valor = float(valor[1:5])
+            valores.append(valor)
     """for row in records:
         string_dias = str(row[0])
         string_dolares = str(row[1])
@@ -83,21 +94,13 @@ def plot_graph():
             dia.append(string_dias[8:10])
             valores.append(float(string_dolares[0:4]))
             break"""
-    for dia in dias:
-        dia=dia[8:10]
-        dia = str(dia)
-    for valor in valores:
-        valor = str(valor)
-        valor = valor.replace(",", ".")
-        valor = float(valor[1:5])
-        print(valor)
     print(dias)
     print(valores)
     plt.plot(dia, valores)
     plt.xlabel("Dia do mês")
     plt.ylabel("Valor do dólar em real")
     plt.title(f"Dólar no mês de {meses[mes]}")
-    #plt.show()
+    plt.show()
 
 
 print(f"UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS")
