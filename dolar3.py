@@ -71,8 +71,8 @@ def connect_and_retrieve_data():
 
 
 def plot_graph():
-    dias =[]
-    valores =[]
+    dias = []
+    valores = []
     with Session(engine) as session:
         s_dias = session.query(Dados.data).all()
         s_valores = session.query(Dados.valor).all()
@@ -86,14 +86,6 @@ def plot_graph():
             valor = valor.replace(",", ".")
             valor = float(valor[1:5])
             valores.append(valor)
-    """for row in records:
-        string_dias = str(row[0])
-        string_dolares = str(row[1])
-        while (string_dias[5:7]) == meses[mes]:
-            strin2 = string_dias.replace(",", ".")
-            dia.append(string_dias[8:10])
-            valores.append(float(string_dolares[0:4]))
-            break"""
     print(dias)
     print(valores)
     plt.plot(dia, valores)
