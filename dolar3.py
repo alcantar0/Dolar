@@ -58,19 +58,22 @@ def plot_graph():
         password='qwe123', host='localhost', port= '5432')
         conn.autocommit = True 
         cursor = conn.cursor()   
-        select_query='select * from dados'
+        select_query='SELECT * FROM dados;'
         cursor.execute(select_query)
         records=cursor.fetchall()
+        print(records)
         dia=[]
         valores=[]
         for row in records:
-                strin2=str(row[0])
-                strin1=str(row[1])
-                while (strin1[5:7]) == meses[mes]:
-                        strin2=strin2.replace(",", ".")
-                        dia.append(strin1[8:10])
-                        valores.append(float(strin2[0:4]))
+                string_dias=str(row[0])
+                string_dolares=str(row[1])
+                while (string_dias[5:7]) == meses[mes]:
+                        strin2=string_dias.replace(",", ".")
+                        dia.append(string_dias[8:10])
+                        valores.append(float(string_dolares[0:4]))
                         break
+        print(dia)
+        print(valores)
         plt.plot(dia, valores)
         plt.xlabel("Dia do mês")
         plt.ylabel("Valor do dólar em real")
@@ -79,6 +82,6 @@ def plot_graph():
 
 print(f'UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS')
 connect_and_retrieve_data()
-#plot_graph()
+plot_graph()
 from time import sleep
 sleep(1)
