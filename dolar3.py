@@ -1,4 +1,5 @@
 # coding=utf-8
+import pandas
 from datetime import date
 import requests
 from bs4 import BeautifulSoup
@@ -86,6 +87,10 @@ def plot_graph():
     import matplotlib.pyplot as plt
     plt.plot(dias, valores)
     plt.show()
+    df = pandas.DataFrame(dict(x = dias, y = valores))
+    import plotly.express as px
+    fig = px.line(df, x='x', y='y', title="Tests")
+    fig.show()
     print(dias)
     print(valores)
 
