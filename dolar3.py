@@ -10,11 +10,13 @@ from sqlalchemy.orm import Session
 
 Base = declarative_base()
 
+
 class Dados(Base):
     __tablename__ = "dados"
     id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
     data = Column(String)
     valor = Column(Float)
+
 
 engine = create_engine("postgresql+psycopg2://pedro:qwe123@localhost/dados")
 
@@ -83,7 +85,7 @@ def plot_graph():
             valores.append(valor)
     print(dias)
     print(valores)
-    
+
 
 print(f"UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS")
 connect_and_retrieve_data()
