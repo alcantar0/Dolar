@@ -1,4 +1,5 @@
 # coding=utf-8
+import pandas
 from datetime import date
 import requests
 from bs4 import BeautifulSoup
@@ -83,12 +84,20 @@ def plot_graph():
             valor = valor.replace(",", ".")
             valor = float(valor[1:5])
             valores.append(valor)
+    import matplotlib.pyplot as plt
+    plt.plot(dias, valores)
+    plt.show()
+    df = pandas.DataFrame(dict(x = dias, y = valores))
+    import plotly.express as px
+    fig = px.line(df, x='x', y='y', title="Tests")
+    fig.show()
     print(dias)
     print(valores)
 
 
 print(f"UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS")
-connect_and_retrieve_data()
+connect_retrieve_and_post_data_on_db()
+plot_graph()
 from time import sleep
 
 sleep(1)
