@@ -1,15 +1,14 @@
 # coding=utf-8
-from matplotlib import pyplot as plt
-import matplotlib.patches as patches
 from datetime import date
 import requests
 from bs4 import BeautifulSoup
 
 from sqlalchemy import Column, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 Base = declarative_base()
-
 
 class Dados(Base):
     __tablename__ = "dados"
@@ -17,11 +16,7 @@ class Dados(Base):
     data = Column(String)
     valor = Column(Float)
 
-
-from sqlalchemy import create_engine
-
 engine = create_engine("postgresql+psycopg2://pedro:qwe123@localhost/dados")
-from sqlalchemy.orm import Session
 
 Base.metadata.create_all(engine)
 
@@ -57,7 +52,7 @@ def get_website_data():
     return valor_em_real
 
 
-def connect_and_retrieve_data():
+def connect_retrieve_and_post_data_on_db():
     with Session(engine) as session:
         today = date.today()
         results = session.query(Dados).filter_by(data=str(today)).all()
@@ -88,16 +83,10 @@ def plot_graph():
             valores.append(valor)
     print(dias)
     print(valores)
-    plt.plot(dia, valores)
-    plt.xlabel("Dia do mês")
-    plt.ylabel("Valor do dólar em real")
-    plt.title(f"Dólar no mês de {meses[mes]}")
-    plt.show()
-
+    
 
 print(f"UM DOLAR EM REAIS ESTÁ VALENDO HOJE: :  {get_website_data()} REAIS")
 connect_and_retrieve_data()
-plot_graph()
 from time import sleep
 
 sleep(1)
